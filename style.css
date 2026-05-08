@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif, Arial; }
+body { background-color: #f4ecfb; color: #333; display: flex; justify-content: center; padding: 40px 20px; }
+.container { background-color: #ffffff; width: 100%; max-width: 1000px; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(107, 33, 168, 0.1); border-top: 5px solid #ffc107; }
+h2 { color: #4a148c; text-align: center; margin-bottom: 25px; font-weight: 600; font-size: 28px; }
+
+/* Tabel */
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 20px; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+thead { background-color: #6b21a8; color: #ffffff; }
+th, td { padding: 15px; text-align: left; }
+th { font-weight: 600; text-transform: uppercase; font-size: 14px; letter-spacing: 0.5px; }
+tbody tr { background-color: #ffffff; transition: all 0.3s ease; }
+tbody tr:nth-child(even) { background-color: #fcf9ff; }
+tbody tr:hover { background-color: #f3e8ff; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(107, 33, 168, 0.1); }
+td { border-bottom: 1px solid #eee; vertical-align: middle; }
+
+/* Thumbnail Gambar */
+img.thumbnail { width: 70px; height: 70px; object-fit: cover; border-radius: 50%; border: 3px solid #ffc107; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+
+/* Tombol */
+.btn { padding: 8px 16px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block; transition: all 0.3s ease; border: none; cursor: pointer; text-align: center; }
+.btn-add { background-color: #ffc107; color: #4a148c; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.4); }
+.btn-add:hover { background-color: #ffca2c; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255, 193, 7, 0.5); }
+.btn-edit { background-color: #6b21a8; color: white; margin-right: 5px; }
+.btn-edit:hover { background-color: #581c87; color: #ffc107; }
+.btn-delete { background-color: #dc3545; color: white; }
+.btn-delete:hover { background-color: #c82333; }
+.btn-cancel { background-color: #6c757d; color: white; }
+.btn-cancel:hover { background-color: #5a6268; }
+.btn-submit { background-color: #28a745; color: white; }
+.btn-submit:hover { background-color: #218838; }
+
+/* Form */
+.form-group { margin-bottom: 20px; }
+label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a148c; }
+input[type="text"], input[type="file"] { width: 100%; padding: 12px; border: 2px solid #e9d5ff; border-radius: 8px; font-size: 14px; transition: border-color 0.3s; }
+input[type="text"]:focus { border-color: #ffc107; outline: none; box-shadow: 0 0 5px rgba(255,193,7,0.5); }
+.form-actions { margin-top: 25px; display: flex; gap: 10px; }
