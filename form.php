@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
     <div class="container" style="max-width: 600px;">
         <h2><?= ($id) ? 'Edit' : 'Tambah' ?> Data Mahasiswa</h2>
 
-        <!-- Atribut onsubmit memanggil fungsi dari script.js -->
+        <!-- BAGIAN KRUSIAL: enctype="multipart/form-data" WAJIB ADA -->
         <form action="proses.php?aksi=<?= ($id) ? 'edit' : 'tambah' ?>" method="POST" enctype="multipart/form-data" onsubmit="return validasiForm()">
             <input type="hidden" id="id" name="id" value="<?= $id ?>">
             <input type="hidden" name="foto_lama" value="<?= $foto ?>">
@@ -57,6 +57,7 @@ if (isset($_GET['id'])) {
                         <p><small style="color: #666;">Biarkan kosong jika tidak ingin mengubah foto.</small></p>
                     </div>
                 <?php endif; ?>
+                <!-- BAGIAN KRUSIAL: name="foto" harus sesuai dengan di proses.php -->
                 <input type="file" id="foto" name="foto" accept=".jpg,.jpeg,.png">
             </div>
 
@@ -67,7 +68,7 @@ if (isset($_GET['id'])) {
         </form>
     </div>
 
-    <!-- Menghubungkan file JavaScript -->
+    <!-- Script validasi -->
     <script src="script.js"></script>
 </body>
 </html>

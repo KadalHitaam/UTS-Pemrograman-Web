@@ -3,6 +3,11 @@ include 'koneksi.php';
 
 $aksi = isset($_GET['aksi']) ? $_GET['aksi'] : '';
 
+// PENYELAMAT UJIAN: Buat folder uploads otomatis jika belum ada!
+if (!is_dir('uploads/')) {
+    mkdir('uploads/', 0777, true);
+}
+
 // --- PROSES TAMBAH & EDIT DATA ---
 if ($aksi == 'tambah' || $aksi == 'edit') {
     $id      = $_POST['id'] ?? '';
@@ -13,7 +18,7 @@ if ($aksi == 'tambah' || $aksi == 'edit') {
     
     $nama_foto = $foto_lama;
 
-    // Cek unggahan foto
+    // Proses Cek dan Upload Foto
     if (isset($_FILES['foto']) && $_FILES['foto']['error'] === 0) {
         $file_name = $_FILES['foto']['name'];
         $file_size = $_FILES['foto']['size'];
@@ -24,18 +29,20 @@ if ($aksi == 'tambah' || $aksi == 'edit') {
         $ekstensi_diperbolehkan = array('jpg', 'png', 'jpeg');
 
         if (in_array($ekstensi, $ekstensi_diperbolehkan) === true) {
-            if ($file_size <= 2097152) { // 2MB
+            if ($file_size <= 2097152) { // Maksimal 2MB
                 $nama_foto_baru = time() . '_' . uniqid() . '.' . $ekstensi;
                 $path = 'uploads/' . $nama_foto_baru;
 
+                // Memindahkan file dari temporary server ke folder uploads/
                 if (move_uploaded_file($file_tmp, $path)) {
                     $nama_foto = $nama_foto_baru;
                     
+                    // Hapus foto lama jika ini mode edit dan mengganti foto
                     if ($aksi == 'edit' && $foto_lama != "" && file_exists("uploads/" . $foto_lama)) {
                         unlink("uploads/" . $foto_lama);
                     }
                 } else {
-                    echo "<script>alert('Gagal mengunggah gambar.'); window.history.back();</script>";
+                    echo "<script>alert('Gagal memindahkan gambar ke folder uploads. Cek hak akses folder.'); window.history.back();</script>";
                     exit;
                 }
             } else {
@@ -43,11 +50,12 @@ if ($aksi == 'tambah' || $aksi == 'edit') {
                 exit;
             }
         } else {
-            echo "<script>alert('Ekstensi file tidak diperbolehkan.'); window.history.back();</script>";
+            echo "<script>alert('Ekstensi file tidak diperbolehkan. Hanya JPG, JPEG, PNG.'); window.history.back();</script>";
             exit;
         }
     }
 
+    // Query Database
     if ($aksi == 'tambah') {
         $query = "INSERT INTO mahasiswa (nim, nama, jurusan, foto) VALUES ('$nim', '$nama', '$jurusan', '$nama_foto')";
     } else if ($aksi == 'edit') {
@@ -69,10 +77,12 @@ if ($aksi == 'hapus') {
         $query_foto = mysqli_query($koneksi, "SELECT foto FROM mahasiswa WHERE id='$id'");
         $data_foto = mysqli_fetch_assoc($query_foto);
         
+        // Hapus file fisik
         if ($data_foto['foto'] != "" && file_exists("uploads/" . $data_foto['foto'])) {
             unlink("uploads/" . $data_foto['foto']);
         }
 
+        // Hapus data dari tabel
         $query = "DELETE FROM mahasiswa WHERE id='$id'";
         if (mysqli_query($koneksi, $query)) {
             echo "<script>alert('Data berhasil dihapus!'); window.location='index.php';</script>";
@@ -81,5 +91,4 @@ if ($aksi == 'hapus') {
         }
     }
 }
-
 ?>
